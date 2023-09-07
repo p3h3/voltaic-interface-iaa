@@ -1,0 +1,156 @@
+/*
+     FOR THE MAIN TABLE
+*/
+
+
+/*
+Disable double-tap to zoom on touch devices
+*/
+* {
+    touch-action: manipulation;
+}
+
+
+
+#main-table {
+    display: grid;
+    grid-auto-flow: column;
+    border-collapse: collapse;
+    width: 100%;
+    padding: 0;
+
+    margin-top: 50px;
+
+    -webkit-border-horizontal-spacing: 0;
+    -webkit-border-vertical-spacing: 0;
+}
+
+/*
+all main table tds
+ */
+td.main-table-td-2row {
+    width: 50vw;
+    height: 50vw;
+
+
+    text-align: left;
+    -webkit-box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+td.main-table-td-4row {
+    width: 25vw;
+    height: 25vw;
+
+
+    text-align: left;
+    -webkit-box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+    TABLE FOR 4 FIELDS
+
+ */
+
+.table-4fields {
+    width: 100%;
+    height: 20%;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/*
+for all td elements inside a table with class table-4channels
+ */
+table.table-4fields td {
+    -webkit-box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    width: 25%;
+
+    text-align: center;
+}
+/*
+no right border for all the rightmost tds in a table-4fields
+ */
+table.table-4fields td:last-of-type {
+    border-right: none;
+}
+/*
+size adjustment for buttons inside the fields
+ */
+table.table-4fields button{
+    font-weight: normal;
+    font-size: 1vw;
+    padding: 0.2vw;
+}
+/* special case for the economy reset buttons */
+#inline-gauge-td table.table-4fields button {
+    font-weight: normal;
+    font-size: 0.8vw;
+    height: 1.1vw;
+    padding: 0;
+}
+/*
+both vertically and horizontally centering the table cell contents
+ */
+table.table-4fields td>div{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height:100%;
+}
+h5.unit-label-below{
+    margin-top: 0;
+}
+h3.unit-label-below{
+    margin-bottom: 1.5vw;
+}
+
+
+
+
+
+
+
+
+/*
+
+    TABLE FOR 3 Channel controls
+
+ */
+
+table.table-3-channel-controls {
+    width: 100%;
+    height: 100%;
+}
+
+table.table-3-channel-controls td {
+    padding: 0;
+    margin: 0;
+    width: 33%;
+    border-right: dotted 2px var(--main-table-grid-color);
+
+    text-align: center;
+}
+/*
+no right border for all the rightmost tds in a table-4fields
+ */
+table.table-3-channel-controls td:last-of-type{
+    border-right: none;
+}

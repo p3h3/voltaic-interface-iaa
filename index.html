@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"-->
+
+    <!-- maybe not good but makes the mobile zoom work and disables input zoom in on mobile -->
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>VoltaicBMS Interface</title>
+
+    <!--
+        STYLESHEETS FOR THE INTERFACE
+    -->
+    <link rel="stylesheet" href="css/fixed-style.css">
+    <!--
+        DEFAULT DARK MODE YAY
+    -->
+    <link rel="stylesheet" href="css/index-dark.css">
+
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/tables.css">
+    <link rel="stylesheet" href="css/dynamic-style.css">
+
+
+    <link rel="stylesheet" href="css/vehicle-model.css">
+
+    <link rel="icon" type="image/x-icon" href="img/icon/512x512.png">
+
+
+
+    <!--
+        STYLESHEETS FOR THE SETTINGS
+    -->
+    <link rel="stylesheet" href="css/settings.css">
+
+
+    <!--
+    Library stylesheets
+    -->
+    <link rel="stylesheet" href="css/libraries/coloris.css"/>
+    <link rel="stylesheet" href="css/libraries/simplekeyboard.css">
+
+
+
+    <!-- COOL, this is a progressive web app now -->
+    <link rel="manifest" href="app.webmanifest" />
+</head>
+<body class="disableSwipeDown">
+
+<div id="tilebar">
+    <div id="tilebar-left">
+        <div class="dropdown">
+            <span>Bluetooth</span>
+            <div class="dropdown-content">
+                <p id="tileBarConnectBMS">Connect BMS</p>
+                <br>
+                <p id="tileBarConnectTacho">Connect Tacho</p>
+                <br>
+                <p id="tileBarDisconnect">Disconnect All Devices</p>
+            </div>
+        </div>
+        <div class="dropdown">
+            <span>Settings</span>
+            <div class="dropdown-content">
+                <a id="tileBarDeviceInfo">Device Info</a>
+                <br>
+                <a id="tileBarBoardConfig">BMS Configuration</a>
+                <br>
+                <a id="tileBarBoardCalib">BMS Calibration</a>
+                <br>
+                <a id="tileBarTachoConfig">Tacho Configuration</a>
+                <a id="settings-hide" class="hidden">
+                    <br>
+                    Close this Window
+                </a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <span id="logging-span">Logging</span>
+            <div class="dropdown-content">
+                <div id="tileBarSelectDataLoggingFile">
+                    <a>Select File</a>
+                    <br>
+                </div>
+                <a id="tileBarStartDataLogging">Start data logging</a>
+                <br>
+                <a id="tileBarStopDataLogging">Stop data logging</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <span id="tilebar-interface-dropdown">Interface</span>
+            <div class="dropdown-content">
+                <a id="tileBar-about">Settings</a>
+                <br>
+                <a id="tileBar-colormode">Switch Style</a>
+                <br>
+                <a id="tilebar-edit">Edit Tiles</a>
+                <br>
+                <a id="tilebar-capture-mode">Film Video</a>
+                <br>
+                <a id="tilebar-interface-mode">Mode</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="tilebar-right">
+
+        <div class="dropdown">
+            <span class="version-number-field accent"></span>
+
+            <div class="dropdown-content">
+                <a class="bms-hz">BMS: </a>
+                <br>
+                <a class="tacho-hz">Tacho: </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="nothingConnectedOverlay" class="">
+    <div id="autoConnectContainer">
+
+        <div id="autoconnectBMS">
+            <h4 id="autoconnectingBMSText" class="hidden">Connecting..</h4>
+            <h2 class="connect-bms-text">Connect<br>
+                BMS</h2>
+
+        </div>
+        <div id="autoconnectTacho">
+            <h4 id="autoconnectingTachoText" class="hidden">Connecting..</h4>
+            <h2 class="connect-tacho-text">Connect<br>
+                Tacho</h2>
+        </div>
+    </div>
+</div>
+
+<div id="zoom-content">
+
+    <table id="main-table">
+        <tr>
+            <td class="main-table-td-2row" id="inline-gauge-td">
+                <div id="connect-tacho-overlay"><h2 class="connect-tacho-text">Connect Tacho</h2></div>
+                <div class="gauge-div" id="inline-gauge">
+
+                    <div class="big-value-flex-div height40">
+                        <div>
+                            <h4 class="h1-label">Speed:</h4>
+                            <h1 class="tacho-speed-value">0km/h</h1>
+                        </div>
+                    </div>
+
+                    <div class="big-value-flex-div height40">
+                        <div>
+                            <h4 class="h1-label">Motor RPM:</h4>
+                            <h1 class="tacho-rpm-value">0RPM</h1>
+                        </div>
+                    </div>
+
+                    <table class="table-4fields">
+                        <tr>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>
+                                            <div class="dropdown">
+                                                Trip Odometer:
+                                                <div class="dropdown-content reset-dropdown">
+                                                    <p id="resetTripOdo">Reset</p>
+                                                </div>
+                                            </div>
+                                            <br>
+                                        </h5>
+                                        <h3 class="tacho-trip-odometer-value unit-label-below">0</h3>
+                                        <h5 class="unit-label-below">km</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5 class="llh2">Odometer:</h5>
+                                        <h3 class="tacho-vehicle-odometer-value unit-label-below">0</h3>
+                                        <h5 class="unit-label-below">km</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>
+                                            <div class="dropdown">
+                                                Economy:
+                                                <div class="dropdown-content reset-dropdown">
+                                                    <p id="resetEconomyButton">Reset</p>
+                                                </div>
+                                            </div>
+                                            <br>
+                                        </h5>
+
+                                        <h3 class="session-economy-value unit-label-below">0</h3>
+                                        <h5 class="unit-label-below">Wh/km</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>Range:</h5>
+                                        <h3 class="session-range-value unit-label-below">0</h3>
+                                        <h5 class="unit-label-below">km</h5>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <td class="main-table-td-2row board-element">
+                <div class="gauge-div flex-center" id="switchOnTd">
+                    <div class="text-align-center" id="turnOnButton">
+                        <h2>Switch ON</h2>
+                    </div>
+                </div>
+            </td>
+
+
+
+
+
+
+        </tr>
+
+        <tr>
+
+
+
+
+
+
+
+
+
+
+
+            <td id="bms-gauge-td" class="main-table-td-2row board-element">
+                <div id="connect-bms-overlay"><h2 class="connect-bms-text">Connect BMS</h2></div>
+                <div class="gauge-div">
+
+                    <table class="table-4fields">
+                        <tr>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5 class="bms-precharge-temp-label">BMS<br>Temp:</h5>
+                                        <h3 class="bms-precharge-temp-value">°C</h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>BMS Temp:</h5>
+                                        <h3 class="bms-shunt-temp-value">°C</h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>Motor Temp:</h5>
+                                        <h3 class="tacho-motor-temp-value">°C</h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>T-Extern Temp:</h5>
+                                        <h3 class="tacho-extern-temp-value">°C</h3>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="big-value-flex-div height30">
+                        <div class="normal-div">
+                            <h4 class="h1-label">Power:</h4>
+                            <h1 class= "bms-combined-power-value">0W</h1>
+                        </div>
+                    </div>
+
+                    <div class="big-value-flex-div height30">
+                        <div class="normal-div width100">
+                            <div class="normal-div float-left width50">
+                                <h4 class="h1-label">Current:</h4>
+                                <h2 class="bms-combined-current-value">0A</h2>
+                            </div>
+                            <div class="normal-div float-right width50">
+                                <h4 class="h1-label">Output Voltage:</h4>
+                                <h2 class="bms-output-voltage-value">0V</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table-4fields">
+                        <tr>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>Battery:</h5>
+                                        <h3 class="bms-min-soc-value">%</h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>On Time:</h5>
+                                        <h3 class="bms-on-time-value">00:00:00</h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>Power loss:</h5>
+                                        <h3 class="bms-power-loss-value">0W</h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>Used Energy:</h5>
+                                        <h3 class="bms-combined-energy-used-value">0Wh</h3>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+
+
+            <td class="main-table-td-2row board-element">
+                <div class="gauge-div">
+                    <div class="left-right-text-container">
+                        <h4 class="float-left">BMS State:</h4>
+                        <h6 class="float-right bms-state-value">off</h6>
+                    </div>
+                    <div class="left-right-text-container">
+                        <h4 class="float-left">Faults:</h4>
+                        <div class="float-right marquee">
+                            <div>
+                                <h6 class="bms-fault-state-value" id="fault-state">
+                                    None
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="left-right-text-container">
+                        <h4 class="float-left">Mode:</h4>
+                        <h6 class="float-right bms-config-startup-value">Autostart</h6>
+                    </div>
+                    <div class="left-right-text-container">
+                        <h4 class="float-left">Over current discharge:</h4>
+                        <h6 class="float-right bms-config-over-current-value">0</h6>
+                    </div>
+                    <div class="left-right-text-container">
+                        <h4 class="float-left">Over voltage:</h4>
+                        <h6 class="float-right bms-config-over-voltage-value">0</h6>
+                    </div>
+                    <div class="left-right-text-container">
+                        <h4 class="float-left">Under voltage:</h4>
+                        <h6 class="float-right bms-config-under-voltage-value">0</h6>
+                    </div>
+                    <div class="left-right-text-container">
+                        <h4 class="float-left">Over current charge:</h4>
+                        <h6 class="float-right bms-config-under-current-value">0</h6>
+                    </div>
+                    <div class="left-right-text-container">
+                        <h4 class="float-left">Over temperature:</h4>
+                        <h6 class="float-right bms-config-over-temp-value">0</h6>
+                    </div>
+                </div>
+            </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <tr>
+            <td class="main-table-td-2row board-element">
+
+                <div class="gauge-div" id="big-max-val-gauge-template">
+
+                    <table class="table-4fields">
+                        <tr>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5 class="bms-max-pch-temp-label">max<br>Temp:</h5>
+                                        <h3 class="bms-max-pch-temp-value">°C</h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>max<br>BMS Temp:</h5>
+                                        <h3 class="bms-max-shunt-temp-value">°C</h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>max<br>Motor Temp:</h5>
+                                        <h3 class="tacho-max-motor-temp-value">°C</h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>max<br>Extern Temp:</h5>
+                                        <h3 class="tacho-max-extern-temp-value">°C</h3>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+
+
+                    <div class="big-value-flex-div height30">
+                        <div>
+                            <h4 class="h1-label">Max Power:</h4>
+                            <h1 class="bms-max-power-value">0W</h1>
+                        </div>
+                    </div>
+                    <div class="big-value-flex-div height30">
+                        <div>
+                            <h4 class="h1-label">Max Speed:</h4>
+                            <h1 class="tacho-max-speed-value">0km/h</h1>
+                        </div>
+                    </div>
+
+
+
+
+                    <table class="table-4fields">
+                        <tr>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>max Current:</h5>
+                                        <h3 class="bms-max-current-value">0V</h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>min Current:</h5>
+                                        <h3 class="bms-min-current-value">0A</h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>min Voltage:</h5>
+                                        <h3 class="bms-min-voltage-value">0V</h3>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div>
+                                        <h5>max Voltage:</h5>
+                                        <h3 class="bms-max-voltage-value">0V</h3>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <td class="main-table-td-2row board-element">
+            <div class="gauge-div" id="channel-info-template">
+                <table class="table-3-channel-controls">
+                    <tr>
+                        <td id="channel-info-1">
+                            <div>
+                                <h4>Battery 1</h4>
+                                <h5>Voltage:</h5>
+                                <h3 class="bms-ch1-voltage-value">0V</h3>
+
+
+                                <h5>Current:</h5>
+                                <h3 class="bms-ch1-current-value">0A</h3>
+
+                                <h5>Power:</h5>
+                                <h3 class="bms-ch1-power-value">0W</h3>
+
+                                <h5>State of Charge:</h5>
+                                <h3 class="bms-ch1-soc-value">0%</h3>
+
+                                <h5>Type:</h5>
+                                <h3 class="bms-ch1-type-value">0S Li-Ion</h3>
+
+                                <h5>Used Energy:</h5>
+                                <h3 class="bms-ch1-energy-used-value">0Wh</h3>
+                            </div>
+                        </td>
+                        <td id="channel-info-2">
+                            <div>
+                                <h4>Battery 2</h4>
+                                <h5>Voltage:</h5>
+                                <h3 class="bms-ch2-voltage-value">0V</h3>
+
+                                <h5>Current:</h5>
+                                <h3 class="bms-ch2-current-value">0A</h3>
+
+                                <h5>Power:</h5>
+                                <h3 class="bms-ch2-power-value">0W</h3>
+
+                                <h5>State of Charge:</h5>
+                                <h3 class="bms-ch2-soc-value">0%</h3>
+
+                                <h5>Type:</h5>
+                                <h3 class="bms-ch2-type-value">0S Li-Ion</h3>
+
+                                <h5 >Used Energy:</h5>
+                                <h3 class="bms-ch2-energy-used-value">0Wh</h3>
+                            </div>
+                        </td>
+                        <td id="channel-info-3">
+                            <div>
+                                <h4>Battery 3</h4>
+                                <h5>Voltage:</h5>
+                                <h3 class="bms-ch3-voltage-value">0V</h3>
+
+                                <h5>Current:</h5>
+                                <h3 class="bms-ch3-current-value">0A</h3>
+
+                                <h5>Power:</h5>
+                                <h3 class="bms-ch3-power-value">0W</h3>
+
+                                <h5>State of Charge:</h5>
+                                <h3 class="bms-ch3-soc-value">0%</h3>
+
+                                <h5>Type:</h5>
+                                <h3 class="bms-ch3-type-value">0S Li-Ion</h3>
+
+                                <h5>Used Energy:</h5>
+                                <h3 class="bms-ch3-energy-used-value">0Wh</h3>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+        </td>
+
+
+
+
+
+
+
+
+
+
+
+        <tr>
+
+            <!--
+
+            they need to absolutely empty!
+            for the rearrange logic to allow placing the dev field here
+
+            -->
+            <td class="main-table-td-2row">
+            </td>
+
+
+            <td class="main-table-td-2row">
+            </td>
+
+        </tr>
+
+
+
+        <tr class="dev-mode-tiles display-none">
+
+            <!--
+
+            they need to absolutely empty!
+            for the rearrange logic to allow placing the dev field here
+
+            -->
+            <td class="main-table-td-2row">
+            </td>
+
+
+            <td class="main-table-td-2row">
+            </td>
+
+        </tr>
+
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- temporary display-none class -->
+    <div id="swipe-for-settings-container" class="touch display-none">
+        <div class="swipe-for-settings-text snap-align">
+            <h4 class="touchUI">Swipe up for settings!</h4>
+            <h4 class="non-touchUI">Double click for settings!</h4>
+        </div>
+        <div class="swipe-for-settings-action touchUI">
+            <h4>Settings enabled.</h4>
+        </div>
+    </div>
+
+
+
+
+    <div id="device-info-container" class="hidden">
+
+        <h2>Device Info :</h2>
+
+        <div class="device-info-device-chooser">
+            <!-- FRANZ NICHT UMBENENNEN, SONST GEHT OTA KAPUTT!!!!!!!! -->
+            <h2 class="device-info-device-not-chosen" value="bms">BMS</h2>
+            <!-- WIRKLICH NICHT! -->
+            <h2 class="device-info-device-not-chosen" value="tacho">Tacho</h2>
+        </div>
+        <h4>Model: <a class="bms-model-field"></a></h4>
+        <h4>Hardware Version: <a class="bms-hardware-version-field"></a></h4>
+        <h4>Firmware Version: <a class="bms-firmware-version-field"></a></h4>
+        <h4>Serial Number: <a class="bms-serial-number-field"></a></h4>
+        <h4 id="firmwareUpdateText" class="hidden"></h4>
+
+        <br>
+        <br>
+
+        <h2>Voltaic OTA Update</h2>
+
+        <br>
+
+        <h3>Available images :</h3>
+        <div id="available-ota-images-div">
+            <select id="available-ota-images">
+                <option>Choose firmware version</option>
+            </select>
+        </div>
+        <br>
+        <a id="otaUpdateInfoText"><br></a>
+        <br>
+        <div>
+            <button id="ota-update-button" type="submit" class="btn btn-info" disabled>Update Firmware</button>
+        </div>
+
+        <div class="hide-setting-button">
+            Close this Window
+        </div>
+    </div>
+
+
+
+
+        <div id="board-configuration-div" class="hidden">
+            <div class="frame">
+                <img class="logo" src="img/icon/512x512.png" alt="voltaic logo">
+            </div>
+
+            <h2>Board Configuration:</h2>
+
+            <h4 id="config-write-warning" class="warning">Settings can't be changed, please turn off first!</h4>
+
+            <div class="readwrite-button-container">
+                <button id="board-config-read">Read</button>
+                <button id="board-config-write">Write</button>
+                <button id="board-turnonoff-config">Turn OFF</button>
+            </div>
+
+
+            <table id="board-config-table">
+
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <label for="board-config-device-name">BMS Name</label>
+                            <div class="dropdown-content">
+                                The Name displayed in the bluetooth connection dialog.
+                            </div>
+                        </div>
+                    </td>
+                    <td><input id="board-config-device-name" type="text" class="bms-name-field"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <label>Enabled Inputs:ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ</label>
+
+                            <div class="dropdown-content">
+                                Which Inputs should are enabled - only these Inputs have the protection features and will turn on
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div id="bms-config-enabled-channels-td">
+                            <div id="bms-config-enabled-channels-div">
+                                <input id="enabled-channels-1" type="checkbox">
+                                <label for="enabled-channels-1">Input 1</label>
+                                <br>
+                                <input id="enabled-channels-2" type="checkbox">
+                                <label for="enabled-channels-2">Input 2</label>
+                                <br>
+                                <input id="enabled-channels-3" type="checkbox">
+                                <label for="enabled-channels-3">Input 3</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <label for="battery-type-select">Battery Type:</label>
+                            <div class="dropdown-content">
+                                The Battery Type is the chemistry of your battery. It determines mostly nominal, over and under voltage of your battery.
+                            </div>
+                        </div>
+                    </td>
+                    <td><select name="battery-type" id="battery-type-select">
+                        <option value="li-ion">Li-Ion</option>            <!-- umin 3v umax 4.2v -->
+                        <option value="li-po">Li-Po</option>              <!-- umin 2.8v umax 4.2v -->
+                        <option value="li-fe-po">LiFePo</option>          <!-- umin 2.5v umax 3.5v -->
+                        <option value="custom-li" selected>Custom Lithium</option> <!-- umin and umax choosable -->
+                        <option id="fully-custom-chemistry-option" value="custom">Custom Voltages</option> <!-- no cell number -->
+                    </select></td>
+                </tr>
+
+                <tr>
+                    <td class="battery-field">
+                        <div class="dropdown">
+                            <label for="battery-cells">Battery cells [1]:</label>
+                            <div class="dropdown-content">
+                                How many of the cells of your selected chemistry your battery pack has in series.
+                            </div>
+                        </div>
+                    </td>
+                    <td class="battery-field"><label for="battery-cells"></label><input id="battery-cells" type="number" min="3" max="40"></td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        <div class="dropdown">
+                            <label for="battery-capacity">Battery capacity [mAh]:</label>
+                            <div class="dropdown-content">
+                                The Capacity of your Battery pack in mAh (total battery, not just a single strand)
+                            </div>
+                        </div>
+                    </td>
+                    <td><input id="battery-capacity" type="number" min="1"></td>
+                </tr>
+
+                <tr>
+                    <td class="battery-field cell-field">
+                        <div class="dropdown">
+                            <label for="max-cell-voltage">Max. cell voltage [mV]:</label>
+                            <div class="dropdown-content">
+                                The cell voltage at which an over-voltage protection event is fired.
+                            </div>
+                        </div>
+                    </td>
+                    <td class="battery-field cell-field"><input id="max-cell-voltage" type="number" min="1"></td>
+
+                </tr>
+
+                <tr>
+                    <td class="battery-field cell-field">
+                        <div class="dropdown">
+                            <label for="min-cell-voltage">Min. cell voltage [mV]:</label>
+                            <div class="dropdown-content">
+                                The cell voltage at which an under voltage protection event is fired.
+                            </div>
+                        </div>
+                    </td>
+                    <td class="battery-field cell-field"><input id="min-cell-voltage" type="number" min="1"></td>
+
+                </tr>
+
+                <tr>
+                    <td class="pack-field">
+                        <div class="dropdown">
+                            <label for="pack-undervoltage">Pack under voltage [V]:</label>
+                            <div class="dropdown-content">
+                                Under voltage Protection voltage for the whole battery pack.
+                            </div>
+                        </div>
+                    </td>
+                    <td class="pack-field"><input id="pack-undervoltage" type="number" min="1"></td>
+
+                </tr>
+
+                <tr>
+
+                    <td class="pack-field">
+                        <div class="dropdown">
+                            <label for="pack-overvoltage">Pack over voltage [V]:</label>
+                            <div class="dropdown-content">
+                                Over voltage Protection voltage for the whole battery pack.
+                            </div>
+                        </div>
+                    </td>
+                    <td class="pack-field"><input id="pack-overvoltage" type="number" min="1"></td>
+                </tr>
+
+                <tr>
+
+                    <td>
+                        <div class="dropdown">
+                            <label for="strand-max-current">Discharge per Input [A]:</label>
+                            <div class="dropdown-content">
+                                Max output (discharge) current of a single connected channel -
+                                if you want 300A combined output current and have all 3 channels enabled, this should be 100A
+                            </div>
+                        </div>
+                    </td>
+                    <td><input id="strand-max-current" type="number" min="1"></td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <label for="strand-max-reverse-current">Charge per Input [A]:</label>
+                            <div class="dropdown-content">
+                                Max input (charge) current of a single connected channel -
+                                if you want 99A combined charging current and have all 3 channels enabled, this should be 33A
+                            </div>
+                        </div>
+                    </td>
+                    <td><input id="strand-max-reverse-current" type="number" min="1"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <label for="strand-max-imbalance-current">Current imbalance [A]:</label>
+                            <div class="dropdown-content">
+                                The difference in current that can flow between the batteries which will trigger a protection event.
+                                With identical battery packs this current may be caused by different wire lengths or different stages of degradation inside the battery.
+                                The difference of course applies to both charging and discharging and "idling"
+                            </div>
+                        </div>
+                    </td>
+                    <td><input id="strand-max-imbalance-current" type="number" min="1"></td>
+                </tr>
+
+                <tr class="hidden">
+                    <td>
+                        <div class="dropdown">
+                            <label for="spike-sensitivity-select">Current Spike sensitivity:</label>
+                            <div class="dropdown-content">
+                                The current spike sensitivity changes the instant over current (short) protection value. If this is set too high, a short may be detected too late or not at all.
+                                If you encounter short Faults under high loads at low speeds, your drivetrain may have a current spike problem, which means that the motor controller is seeking
+                                really high currents for short durations and is thereby potentially harming the battery. You can just turn down the sensitivity to avoid the faults, we would
+                                however advise you to look at other options of avoiding spikes (additional filter capacitors near the motor controller).
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <select name="spike-sensitivity" id="spike-sensitivity-select">
+                            <option value="0">Off</option>
+                            <option value="1">Low</option>
+                            <option value="2">High</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <label for="load-capacitance">Detect Capacitive Loads:</label>
+                            <div class="dropdown-content">
+                                Please put 1 to only "Switch ON" Capacitive Loads and 0 otherwise
+                                Higher Values then 1 are also possible = [10uF] * Value but untested.
+                                If this setting is wrong, it may lead to faults "nothing connected" faults.
+                            </div>
+                        </div>
+                    </td>
+                    <td><input id="load-capacitance" type="number" min="0" max="65534"></td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <label for="logic-max-temp">Extern max temp [°C]:</label>
+                            <!--div class="dropdown-content">
+                                The precharge transistor regulated the current needed to charge the output capacitance (motor controllers, etc.).
+                                Per physics, this transistor dissipates the same energy that the capacitors are charged with, which
+                                means, that it gets warm. This max temperature may be set from experience to catch unusually high
+                                output capacities or to prolong the life of the transistor. You can't break anything with this setting
+                                as there is a self-protection mechanism.
+                            </div-->
+                        </div>
+                    </td>
+                    <td><input id="logic-max-temp" type="number" min="40" max="90"></td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <label for="power-max-temp">Board max temp [°C]:</label>
+                            <div class="dropdown-content">
+                                The shunt temperature is a good representation of how warm the power stage of the VoltaicBMS is.
+                                You may set the temperature as you like if you need this BMS to be below a certain temperature
+                                As with the precharge transistor, setting this max temp lower might let you catch anomalies in your
+                                setup before it's too late.
+                            </div>
+                        </div>
+                    </td>
+                    <td><input id="power-max-temp" type="number" min="40" max="90"></td>
+                </tr>
+
+
+
+                <!--
+                <tr><td></td><td></td><td class="separator"></td><td></td><td></td></tr>
+                <tr>
+                    <td>Precharge current limit [mA]</td>
+                    <td><input id="precharge-current-limit" type="number" min="1" max="20"></td>
+
+                    <td class="seperator"></td>
+
+                    <td>Load capacitance [uF]</td>
+                    <td><input id="load-capacitance" type="number" min="0" max="20000"></td>
+                </tr>
+
+                -->
+
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <label for="autostart">Autostart:</label>
+                            <div class="dropdown-content">
+                                With this setting, you decide if the BMS should automatically try to turn on the channels on power up.
+                            </div>
+                        </div>
+                    </td>
+                    <td><input id="autostart" type="checkbox"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <label for="bms-config-auto-power-off">Auto power off [min]:</label>
+                            <div class="dropdown-content">
+                                Idle time before BMS automatically turns off. Idle is defined as either not in operation mode or
+                                <0.5A current drawn from each battery. Resets every time idle state is left.
+                            </div>
+                        </div>
+                    </td>
+                    <td><input id="bms-config-auto-power-off" type="number"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="datalogging-update-frequency">Data Frequency [Hz]:</label>
+                    </td>
+                    <td>
+                        <input id="datalogging-update-frequency" type="number" min="1" max="120">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="dropdown">
+                            <label>Update Count:</label>
+                            <div class="dropdown-content">
+                                The number of times, the configuration has been updated. This mostly serves as a confirmation, that
+                                all of your changes have been correctly sent and read back - if you save the changes, this number
+                                should increase by 1.
+                            </div>
+                        </div>
+                    </td>
+                    <td id="updatecount"></td>
+                </tr>
+
+            </table>
+
+            <!--
+            TEMPORARILY DISABLED FOR STABLE VERSION
+
+            <div class="readwrite-local-button-container">
+                <p id="last-local-config-text">Last backup:</p>
+                <button id="board-config-read-in-localStorage">Load BMS backup</button>
+                <button id="board-config-write-to-localStorage">Backup BMS settings</button>
+            </div>
+            -->
+
+
+            <div class="hide-setting-button">
+                Close this Window
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div id="inline-configuration-div" class="hidden">
+
+            <h2>Tacho Configuration:</h2>
+
+            <div class="readwrite-button-container">
+                <button id="inline-config-read">Read</button>
+                <button id="inline-config-write">Write</button>
+            </div>
+            <table id="inline-configuration-table">
+                <tr>
+                    <td>
+                        <label for="ntc-type-select">Sensor Type:</label>
+                    </td>
+                    <td>
+
+                        <select name="ntc-type" id="ntc-type-select">
+                            <option value="ntc10k">NTC 10K @ 25°C</option> <!-- B value = 3460; R @ 0°C = 29400 -->
+                            <option value="ptc1k" disabled>PTC 1K @ 100°C</option>
+                            <option value="kty83">KTY83/122</option>
+                            <option value="ntc100k">NTC 100K @ 25°C</option> <!-- B value = 4334 R @ 0°C = 350000 -->
+                            <option value="kty84">KTY84/130</option>
+                            <option value="ntc_custom">Custom NTC</option>
+                            <option value="ptc_custom" disabled>Custom PTC</option>
+                        </select>
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td class="customTempInput">
+                        <label for="r-value">Thermistor R at 25°C [Ohm]</label>
+                    </td>
+
+                    <td class="customTempInput">
+                        <input id="r-value" type="number" min="1">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <label for="r-value-divider">Internal 10K Pull-up [Ohm] </label>
+                    </td>
+                    <td>
+                        <input id="r-value-divider" type="number" min="1">
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td class="customTempInput">
+                        <label for="b-value">NTC Beta [1]</label>
+                    </td>
+                    <td class="customTempInput">
+                        <input id="b-value" type="number" min="1">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <label for="reversed">Reverse Motor</label>
+                    </td>
+                    <td>
+                        <input id="reversed" type="checkbox">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <label for="back-neg">Reverse in - km/h</label>
+                    </td>
+                    <td>
+                        <input id="back-neg" type="checkbox">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="inline-dl-frequency">Data Frequency [Hz]</label>
+                    </td>
+                    <td>
+                        <input id="inline-dl-frequency" type="number">
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        <label for="distperpulse">Distance per Pulse [0.1mm]</label>
+                    </td>
+                    <td>
+                        <input id="distperpulse" type="number">
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        <label for="distance">Calibration Distance[mm]:</label>
+                    </td>
+                    <td>
+                        <input id="distance" type="number">
+                    </td>
+
+                </tr>
+                <tr>
+
+                    <td>
+                        <button id="resetPulses">Set to 0</button>
+                        <br>
+
+                        <div>
+                            Pulses: <span id="pulses"></span>
+                            <div class="dropdown-content">
+                                Everytime your Hall sensor detect a Pulse, depending on rotation Direction it gets added or subtracted.
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <button id="calculatedistperpulse">Calculate</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="motor-poles">Motor Pole Pairs</label>
+                    </td>
+                    <td>
+                        <input id="motor-poles" type="number" min="1">
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>Trip Odometer</td>
+                    <td><button id="configResetTripOdo">Set to 0.0km</button></td>
+
+                </tr>
+                <tr>
+                    <td>Vehicle Odometer</td>
+                    <td><button id="resetVehicleOdo">Set to 0.0km</button></td>
+                </tr>
+            </table>
+
+            <div class="hide-setting-button">
+                Close this Window
+            </div>
+        </div>
+
+
+    <div id="board-calibration-div" class="hidden">
+
+        <h2>Calibration values:</h2>
+        <h4 id="calib-write-warning" class="warning">Settings can't be changed, please turn off first!</h4>
+
+        <div class="readwrite-button-container">
+            <button id="board-calib-read">Read</button>
+            <button id="board-calib-write">Write</button>
+            <button id="board-turnonoff-calib">Turn OFF</button>
+        </div>
+
+        <div class="read-calib-backup-container">
+            <select name="calib-backup-device" id="calib-backup-device-select">
+            </select>
+            <select name="calib-backup" id="calib-backup-select">
+            </select>
+            <button id="board-calib-backup-read">Apply Backup</button>
+        </div>
+
+        <table id="board-calibration-table">
+            <tr class="separator">
+                <td>
+                    Input Voltage 1
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="in-volt1-target">Target Value[V]:</label>
+                    <br>
+                    <input id="in-volt1-target" type="number"></td>
+                <td>
+                    Actual Value:
+                    <br>
+                    <a id="in-volt1-actual">hi</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="in-volt1-correction">Internal Correction Factor:</label>
+                    <br>
+                    <input id="in-volt1-correction" type="number">
+                </td>
+                <td>
+                    <button id="calculateInV1">Calculate</button>
+                </td>
+            </tr>
+
+
+
+            <tr class="separator">
+                <td>
+                    Input Voltage 2
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+
+            </tr>
+            <tr>
+                <td>
+                    <label for="in-volt2-target">Target Value[V]:</label>
+                    <br>
+                    <input id="in-volt2-target" type="number">
+                </td>
+                <td>
+                    Actual Value:
+                    <br>
+                    <a id="in-volt2-actual">hi</a>
+                </td>
+            </tr>
+            <tr>
+
+                <td>
+                    <label for="in-volt2-correction">Internal Correction Factor:</label>
+                    <br>
+                    <input id="in-volt2-correction" type="number">
+                </td>
+                <td>
+                    <button id="calculateInV2">Calculate</button>
+                </td>
+            </tr>
+
+
+
+            <tr class="separator">
+                <td>
+                    Input Voltage 3
+                </td>
+                <td>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="in-volt3-target">Target Value[V]:</label>
+                    <br>
+                    <input id="in-volt3-target" type="number">
+                </td>
+                <td>
+                    Actual Value:
+                    <br>
+                    <a id="in-volt3-actual">hi</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="in-volt3-correction">Internal Correction Factor:</label>
+                    <br>
+                    <input id="in-volt3-correction" type="number">
+                </td>
+                <td>
+                    <button id="calculateInV3">Calculate</button>
+                </td>
+            </tr>
+
+
+
+            <tr class="separator">
+                <td>
+                    Output Voltage
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="out-volt-target">Target Value[V]:</label>
+                    <br>
+                    <input id="out-volt-target" type="number"></td>
+                <td>
+                    Actual Value:
+                    <br>
+                    <a id="out-volt-actual">hi</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="out-volt-correction">Internal Correction Factor:</label>
+                    <br>
+                    <input id="out-volt-correction" type="number">
+                </td>
+                <td>
+                    <button id="calculateOut">Calculate</button>
+                </td>
+            </tr>
+
+
+
+            <tr class="separator">
+                <td>
+                    Shunt 1
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="shunt-resistance-1-target">Target Value[A]:</label>
+                    <br>
+                    <input id="shunt-resistance-1-target" type="number">
+                </td>
+                <td>
+                    Actual Value:
+                    <br>
+                    <a id="shunt-resistance-1-actual"></a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="shunt-resistance-1">Shunt resistance [uΩ]:</label>
+                    <br>
+                    <input id="shunt-resistance-1" type="number">
+                </td>
+
+                <td>
+                    <button id="calculateShunt1">Calculate</button>
+                </td>
+            </tr>
+
+
+
+
+            <tr class="separator">
+                <td>
+                    Shunt 2
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="shunt-resistance-2-target">Target Value[A]:</label>
+                    <br>
+                    <input id="shunt-resistance-2-target" type="number">
+                </td>
+                <td>
+                    Actual Value:
+                    <br>
+                    <a id="shunt-resistance-2-actual"></a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="shunt-resistance-2">Shunt resistance [uΩ]:</label>
+                    <br>
+                    <input id="shunt-resistance-2" type="number">
+                </td>
+                <td>
+                    <button id="calculateShunt2">Calculate</button>
+                </td>
+            </tr>
+
+
+
+            <tr class="separator">
+                <td>
+                    Shunt 3
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="shunt-resistance-3-target">Target Value[A]:</label>
+                    <br>
+                    <input id="shunt-resistance-3-target" type="number">
+                </td>
+                <td>
+                    Actual Value:
+                    <br>
+                    <a id="shunt-resistance-3-actual">hi</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="shunt-resistance-3">Shunt resistance [uΩ]:</label>
+                    <br>
+                    <input id="shunt-resistance-3" type="number">
+                </td>
+                <td>
+                    <button id="calculateShunt3">Calculate</button>
+                </td>
+            </tr>
+        </table>
+
+
+        <div class="readwrite-local-button-container">
+            <button id="board-calib-open-json">Open Calib JSON</button>
+            <button id="board-calib-save-json">Save Calib as JSON</button>
+            <button id="board-config-open-json">Open Config JSON</button>
+            <button id="board-config-save-json">Save Config as JSON</button>
+        </div>
+
+
+        <div class="hide-setting-button">
+            Close this Window
+        </div>
+    </div>
+
+
+
+
+
+    <div id="interface-settings-container" class="hidden">
+        <img class="logo" src="img/icon/512x512.png" alt="voltaic logo">
+        <h2>VoltaicBMS Interface</h2>
+        <h3>Version:</h3>
+        <p class="version-number-field"></p>
+
+        <div class="description-container">
+            <p>
+                This App is for use with the VoltaicBMS and VoltaicTacho.
+            </p>
+
+            <p>
+                Here you can customize your Style, how rounded your Live-Data is
+                and a lot more cool Features like only showing Voltaic Bluetooth Devices in the Search List.
+            </p>
+
+            <div id="interface-configuration-table-container">
+                <table id="interface-configuration-table">
+                    <tr>
+                        <td>
+                            <h2> <label for="interface-show-temp-bms-ext">Custom Style :</label> </h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-foreground-color">Text Color</label>
+                        </td>
+
+                        <td class="full">
+                            <input id="interface-foreground-color" class="coloris foreground-color" type="text" data-coloris>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-background-color">Background Color</label>
+                        </td>
+                        <td class="full">
+                            <input id="interface-background-color" class="coloris background-color" type="text" data-coloris>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-accent-color">Accent Color</label>
+                        </td>
+                        <td class="full">
+                            <input id="interface-accent-color" class="coloris accent" type="text" data-coloris>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="capture-mode-background-color">Film Video Tile Color</label>
+                        </td>
+                        <td class="full">
+                            <input id="capture-mode-background-color" class="coloris capture-mode-background-color" type="text" data-coloris>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>ㅤ</label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <h2> <label for="interface-show-temp-bms-ext">Live Values : </label> </h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-averaging-time-u">BMS averaging U [s]</label>
+                        </td>
+                        <td>
+                            <input id="interface-averaging-time-u" type="number" step="0.1" min="0.1">
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-averaging-time-i">BMS averaging I [s]</label>
+                        </td>
+                        <td>
+                            <input id="interface-averaging-time-i" type="number" step="0.1" min="0.1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-averaging-time-t">BMS averaging T [s]</label>
+                        </td>
+                        <td>
+                            <input id="interface-averaging-time-t" type="number" step="0.1" min="0.1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-averaging-time-calib">BMS Calib averaging [s]</label>
+                        </td>
+                        <td>
+                            <input id="interface-averaging-time-calib" type="number" step="0.1" min="0.1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-averaging-time-tacho-v">Tacho averaging V [s]</label>
+                        </td>
+                        <td>
+                            <input id="interface-averaging-time-tacho-v" type="number" step="0.1" min="0.1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-averaging-time-tacho-t">Tacho averaging T [s]</label>
+                        </td>
+                        <td>
+                            <input id="interface-averaging-time-tacho-t" type="number" step="0.1" min="0.1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>ㅤ</label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <h2> <label for="interface-show-temp-bms-ext">Durations : </label> </h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-max-value-hold-on-time">Max Values Duration [s]</label>
+                        </td>
+                        <td>
+                            <input id="interface-max-value-hold-on-time" type="number" step="0.1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-connect-step-timeout">Connect Timeout [s]</label>
+                        </td>
+                        <td>
+                            <input id="interface-connect-step-timeout" type="number" step="0.1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>ㅤ</label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <h2> <label for="interface-show-temp-bms-ext">Features :</label> </h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-filter-bms-connection">Show only VoltaicDevices</label>
+                        </td>
+                        <td>
+                            <input id="interface-filter-bms-connection" type="checkbox">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-bms-auto-read-config-calib">Auto-Read BMS Settings</label>
+                        </td>
+                        <td>
+                            <input id="interface-bms-auto-read-config-calib" type="checkbox">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-wakelock-checkbox">Screen always ON</label>
+                        </td>
+                        <td>
+                            <input id="interface-wakelock-checkbox" type="checkbox">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>ㅤ</label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <h2> <label for="interface-show-temp-bms-ext">Active Sensors :</label> </h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="interface-wakelock-checkbox">BMS-Ext, BMS, Motor, T-Ext</label>
+                        </td>
+                        <td>
+                            <input id="interface-show-temp-bms-ext" type="checkbox">
+                            <input id="interface-show-temp-bms" type="checkbox">
+                            <input id="interface-show-temp-motor" type="checkbox">
+                            <input id="interface-show-temp-tacho-ext" type="checkbox">
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <p>
+                As this is a progressive web app, you just need to restart while connected to the Internet for an Update.
+                <br>
+                <br>
+                Please always restart again after every Update!
+            </p>
+
+            <p>
+                Note: If you have any problems or want to make a suggestion, feel free to contact us!
+                You can reach us via: info@voltaic.de or WhatsApp / Phone : +49 170 5731608
+            </p>
+
+            <p>
+                If you want to contact the Lead Developer of this PWA or if you are interested in
+                development or discussing technical topics send me an E-Mail! : hi@p3h3.de
+            </p>
+
+
+        </div>
+
+        <div class="hide-setting-button">
+            Close this Window
+        </div>
+    </div>
+
+
+
+    <div id="capture-mode-container" class="display-none">
+
+        <div id="capture-mode-inner-container">
+            <video autoplay id="capture-mode-video"></video>
+
+            <table id="capture-mode-table">
+                <tr>
+
+                    <td class="main-table-td-2row board-element">
+                        <div class="gauge-div">
+
+                            <table class="table-4fields">
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <div>
+                                                <h5 class="bms-precharge-temp-label">BMS<br>Temp:</h5>
+                                                <h3 class="bms-precharge-temp-value">°C</h3>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <div>
+                                                <h5>BMS Temp:</h5>
+                                                <h3 class="bms-shunt-temp-value">°C</h3>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <div>
+                                                <h5>Motor Temp:</h5>
+                                                <h3 class="tacho-motor-temp-value">°C</h3>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <div>
+                                                <h5>T-Extern Temp:</h5>
+                                                <h3 class="tacho-extern-temp-value">°C</h3>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class="big-value-flex-div height30">
+                                <div class="normal-div">
+                                    <h4 class="h1-label">Power:</h4>
+                                    <h1 class="bms-combined-power-value">0W</h1>
+                                </div>
+                            </div>
+
+                            <div class="big-value-flex-div height30">
+                                <div class="normal-div width100">
+                                    <div class="normal-div float-left width50">
+                                        <h4 class="h1-label">Speed:</h4>
+                                        <div class="normal-div width100">
+                                            <div class="normal-div float-left width50" style="text-align: right">
+                                                <h2 class="tacho-speed-value-no-unit">0</h2>
+                                            </div>
+                                            <div class="normal-div float-right width50">
+                                                <h4>km/h</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="normal-div float-right width50">
+                                        <h4 class="h1-label">Current:</h4>
+                                        <h2 class="bms-combined-current-value">0A</h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table-4fields">
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <div>
+                                                <h5>Battery State:</h5>
+                                                <h3 class="bms-min-soc-value">%</h3>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <div>
+                                                <h5>Output Voltage:</h5>
+                                                <h3 class="bms-output-voltage-value">0V</h3>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <div>
+                                                <h5>Power loss:</h5>
+                                                <h3 class="bms-power-loss-value">0W</h3>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <div>
+                                                <h5>Used Energy:</h5>
+                                                <h3 class="bms-combined-energy-used-value">0Wh</h3>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+
+                    <td class="main-table-td-2row">
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="keyboard-container" class="hidden">
+        <div class="simple-keyboard"></div>
+    </div>
+
+
+    <div class="elementsdiv" id="elementsDiv">
+
+
+        <!-- Don't know where else to put it -->
+        <a id="aDownloadFile" download></a>
+
+
+        <table>
+
+            <td class="main-table-td-2row" id="vehicle-model">
+                <div class="gauge-div">
+
+                    <div class="vehicle-model-container">
+                        <!-- SVG injection makes the tag style-able since it's an inline SVG object-->
+                        <img src="./img/gokart_wireframe.svg" class="vehicle-model-image"/>
+
+                    </div>
+
+                    <table class="vehicle-model-table">
+                        <!--
+                            for gokart only!!!!
+                         -->
+                        <tr class="visibility-hidden">
+                            <td>
+                                <input id="reverse-fl" type="checkbox">
+                            </td>
+                            <td>
+                                <div class="vehicle-model-torque">
+                                    <div class="vehicle-model-torque-positive vehicle-model-torque-fl"></div>
+                                    <div class="vehicle-model-torque-negative vehicle-model-torque-fl"></div>
+                                </div>
+                            </td>
+
+
+                            <!-- inverted order here because css spec is weird
+                            - float right elements are in inverse order -->
+                            <td>
+                                <input id="reverse-fr" type="checkbox">
+                            </td>
+                            <td>
+                                <div class="vehicle-model-torque">
+                                    <div class="vehicle-model-torque-positive vehicle-model-torque-fr"></div>
+                                    <div class="vehicle-model-torque-negative vehicle-model-torque-fr"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <input id="reverse-rr" type="checkbox" class="visibility-hidden">
+                            </td>
+                            <td>
+                                <div class="vehicle-model-torque">
+                                    <div class="vehicle-model-torque-positive vehicle-model-torque-rr"></div>
+                                    <div class="vehicle-model-torque-negative vehicle-model-torque-rr"></div>
+                                </div>
+                            </td>
+
+                            <!-- inverted order here because css spec is weird
+                            - float right elements are in inverse order -->
+                            <td>
+                                <input id="reverse-rl" type="checkbox" class="visibility-hidden">
+                            </td>
+                            <td>
+                                <div class="vehicle-model-torque">
+                                    <div class="vehicle-model-torque-positive vehicle-model-torque-rl"></div>
+                                    <div class="vehicle-model-torque-negative vehicle-model-torque-rl"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+
+
+                </div>
+            </td>
+
+
+            <td class="main-table-td-2row" id="can-gauge">
+                <div class="gauge-div can-bridge-element">
+
+                    <table class="table-4fields">
+                        <tr>
+                            <td class="can-input-td"><label for="can-tx-extended-id-checkbox" class="can-input" >Extended ID:</label></td>
+                            <td class="can-input-td"><input type="checkbox" class="can-input" id="can-tx-extended-id-checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td class="can-input-td"><label for="can-tx-id" class="can-input" >ID (dec):</label></td>
+                            <td class="can-input-td"><input type="number" class="can-input" id="can-tx-id" value="0"></td>
+                        </tr>
+                        <tr>
+                            <td class="can-input-td"><label for="can-tx-data0" class="can-input" >D0:</label></td>
+                            <td class="can-input-td"><input type="number" class="can-input" id="can-tx-data0" value="-1"></td>
+                        </tr>
+                        <tr>
+                            <td class="can-input-td"><label for="can-tx-data1" class="can-input" >D1:</label></td>
+                            <td class="can-input-td"><input type="number" class="can-input" id="can-tx-data1" value="-1"></td>
+                        </tr>
+                        <!--
+                        <tr>
+                            <td class="can-input-td"><label for="can-tx-data2" class="can-input" >D2:</label></td>
+                            <td class="can-input-td"><input type="number" class="can-input" id="can-tx-data2" value="-1"></td>
+                        </tr>
+                        <tr>
+                            <td class="can-input-td"><label for="can-tx-data3" class="can-input" >D3:</label></td>
+                            <td class="can-input-td"><input type="number" class="can-input" id="can-tx-data3" value="-1"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="can-input-td"><label for="can-tx-data4" class="can-input" >D4:</label></td>
+                            <td class="can-input-td"><input type="number" class="can-input" id="can-tx-data4" value="-1"></td>
+                        </tr>
+                        <tr>
+                            <td class="can-input-td"><label for="can-tx-data5" class="can-input" >D5:</label></td>
+                            <td class="can-input-td"><input type="number" class="can-input" id="can-tx-data5" value="-1"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="can-input-td"><label for="can-tx-data6" class="can-input" >D6:</label></td>
+                            <td class="can-input-td"><input type="number" class="can-input" id="can-tx-data6" value="-1"></td>
+                        </tr>
+                        <tr>
+                            <td class="can-input-td"><label for="can-tx-data7" class="can-input" >D7:</label></td>
+                            <td class="can-input-td"><input type="number" class="can-input" id="can-tx-data7" value="-1"></td>
+                        </tr>
+                        -->
+                        <tr>
+                            <td class="can-input-td"><label for="can-tx-send-button" class="can-input" >Send!</label></td>
+                            <td class="can-input-td"><input type="button" class="can-input" id="can-tx-send-button"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="can-input-td"><label for="can-rx-extended-id-checkbox" class="can-input" >Extended ID:</label></td>
+                            <td class="can-input-td"><input type="checkbox" class="can-input" id="can-rx-extended-id-checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td class="can-input-td"><label for="can-rx-id" class="can-input" >ID (dec):</label></td>
+                            <td class="can-input-td"><input type="number" class="can-input" id="can-rx-id" value="0"></td>
+                        </tr>
+                        <tr>
+                            <td class="can-input-td"><label for="can-rx-send-button" class="can-input" >Send!</label></td>
+                            <td class="can-input-td"><input type="button" class="can-input" id="can-rx-send-button"></td>
+                        </tr>
+                    </table>
+
+
+                    <p id="can-rx-pfusch-box">
+
+                </div>
+            </td>
+
+        </table>
+
+
+
+        <div class="gauge-div flex-center" id="clearAlertsTd">
+            <div class="text-align-center">
+                <h2 id="clearAlerts-fault-name">Fault</h2>
+                <h4 id="clearAlerts-fault-explanation">Fault explanation</h4>
+                <button id="clearAlertsButton">CONFIRM SETTINGS</button>
+            </div>
+        </div>
+
+        <div class="gauge-div" id="dev-field">
+
+            <div class="height30" id="precharge-checkbox-template">
+                <h3 id="precharge-button">do the thingy</h3>
+            </div>
+            <label for="prechargePWMInput">precharge pwm value(ouf of 255)</label>
+
+            <input type="number" max="60" id="prechargePWMInput" value="5">
+            <h4 id="autoprecharge">current precharge value: 0</h4>
+
+            <div>
+                <table class="width100 height30">
+                    <tr>
+                        <td>
+                            <div>
+                                <h4>Channel 1</h4>
+                                <div class="channel-control-button">
+                                    <div id="ch1control-on-div">
+                                        <h3><img src="img/off.jpg" id="ch1control-on" class="height30 width100" alt="ch1 control"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <h4>Channel 2</h4>
+                                <div class="channel-control-button">
+                                    <div id="ch2control-on-div">
+                                        <h3><img src="img/off.jpg" id="ch2control-on" class="height30 width100" alt="ch2 control"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <h4>Channel 3</h4>
+                                <div class="channel-control-button">
+                                    <div id="ch3control-on-div">
+                                        <h3><img src="img/off.jpg" id="ch3control-on" class="height30 width100" alt="ch3 control"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="dist/main.js"></script>
+
+
+
+</body></html>

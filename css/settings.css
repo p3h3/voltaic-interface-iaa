@@ -1,0 +1,422 @@
+/*
+    Style for the Swipe for settings element
+ */
+
+#swipe-for-settings-container{
+    width: 100vw;
+    height: 10vh;
+
+    overflow: auto;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+}
+#swipe-for-settings-container::-webkit-scrollbar{
+    display: none;
+}
+
+
+.snap-align{
+    scroll-snap-align: start;
+}
+
+.swipe-for-settings-text,
+.swipe-for-settings-action{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:color .5s ease-in;
+
+    min-height: 100%;
+}
+
+
+
+
+
+
+/*
+    HIDE SETTING BUTTON
+ */
+.hide-setting-button{
+    margin-top: 5vh;
+    height: 4vh;
+    font-size: 2vh;
+    width: 100%;
+    display: flex;
+
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--dropdown-background-color);
+}
+
+
+
+/*
+    Style dependant on the device touch capability
+ */
+#swipe-for-settings-container.touch .non-touchUI{
+    display: none;
+}
+
+#swipe-for-settings-container.non-touch .touchUI{
+    display: none;
+}
+
+
+
+/*
+    Style for the settings that sit below the main grid
+ */
+
+
+#board-configuration-div {
+    text-align: center;
+    width: 95vw;
+
+    margin: 20vh auto auto;
+}
+#board-configuration-div table {
+    width: 100%;
+
+    margin-top: 5vh;
+}
+
+#board-calibration-div{
+    text-align: center;
+    width: 95vw;
+
+    margin: 20vh auto auto;
+}
+#board-calibration-div table {
+    width: 100%;
+
+    margin-top: 5vh;
+}
+
+#inline-configuration-div{
+    text-align: center;
+    width: 95vw;
+
+    margin: 20vh auto auto;
+}
+#inline-configuration-div table{
+    width: 100%;
+
+    margin-top: 5vh;
+}
+
+
+#interface-settings-container{
+    text-align: center;
+    width: 90vw;
+    margin: 20vh auto auto;
+}
+#interface-settings-container table{
+    width: 100%;
+
+    margin-top: 5vh;
+}
+
+
+#device-info-container{
+    text-align: center;
+    width: 90vw;
+    margin: 20vh auto auto;
+}
+#device-info-container .logo{
+    height: 10vw;
+    width: 10vw;
+}
+#device-info-container a{
+    display: inline;
+}
+
+
+
+
+/*
+Buttons for reading and writing
+ */
+
+.readwrite-button-container button{
+    font-family: Pervitina, serif;
+    width: 25vw;
+    height: 4vw;
+    font-size: 3vw;
+}
+
+
+.readwrite-local-button-container button{
+    font-family: Pervitina, serif;
+    height: 4vw;
+    font-size: 2vw;
+}
+
+.read-calib-backup-container button{
+    font-family: Pervitina, serif;
+    height: 4vw;
+    font-size: 2vw;
+}
+.read-calib-backup-container select{
+    font-family: Pervitina, serif;
+    height: 4vw;
+    font-size: 2vw;
+}
+
+
+
+
+
+/*
+    INTERFACE CONFIG
+ */
+
+#interface-configuration-table-container{
+    display: flex;
+    justify-content: center;
+}
+
+#interface-configuration-table{
+    width: 100%;
+    margin: 20vh auto auto;
+}
+#interface-configuration-table {
+    display: grid;
+
+    font-size: 3vw;
+
+    grid-auto-flow: column;
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
+}
+
+#interface-configuration-table  td:first-child {
+    text-align: left;
+}
+#interface-configuration-table td {
+    padding: 0;
+    margin: 0;
+    width: 50%;
+}
+
+#interface-configuration-table td:last-child {
+    text-align: right;
+}
+
+#interface-configuration-table td:first-child {
+    text-align: left;
+}
+
+#interface-configuration-table select, #interface-configuration-table button, #interface-configuration-table input {
+    font-family: 'Pervitina', monospace;
+    font-size: inherit;
+    text-align: inherit;
+}
+/* no goofy up/down buttons
+#interface-configuration-table input::-webkit-outer-spin-button, #interface-configuration-table input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}*/
+
+/*
+stuff for the color pickers
+ */
+
+.full .clr-field button {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+    BOARD CONFIG
+ */
+
+#board-configuration-div{
+    width: 95vw;
+    margin: 20vh auto auto;
+}
+#board-config-table {
+    display: grid;
+
+    font-size: 3vw;
+
+    grid-auto-flow: column;
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
+}
+
+#board-config-table  td:first-child {
+    text-align: left;
+}
+#board-config-table td {
+    padding: 0;
+    margin: 0;
+}
+
+#board-config-table td:last-child {
+    text-align: right;
+}
+
+#board-config-table td:first-child {
+    text-align: left;
+}
+
+#board-config-table select, #board-config-table button, #board-config-table input {
+    font-family: 'Pervitina', monospace;
+    font-size: inherit;
+    text-align: inherit;
+}
+#board-config-table select, #board-config-table button, #board-config-table input[type="number"] {
+    width: 99%;
+}
+/* no goofy up/down buttons */
+#board-config-table input::-webkit-outer-spin-button, #board-config-table input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+/* special treatment for the enabled channels */
+#bms-config-enabled-channels-div {
+    text-align: left;
+}
+#bms-config-enabled-channels-td {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+
+
+
+
+/*
+    INLINE CONFIG
+ */
+
+#inline-configuration-div{
+    width: 100%;
+    margin: 5vh auto auto;
+}
+
+
+#inline-configuration-table  td:first-child {
+    text-align: left;
+}
+
+
+#inline-configuration-table td:last-child {
+    text-align: right;
+}
+
+#inline-configuration-table td:first-child {
+    text-align: left;
+}
+
+#inline-configuration-table select, #inline-configuration-table button, #inline-configuration-table input {
+    font-family: 'Pervitina', monospace;
+    font-size: inherit;
+    text-align: inherit;
+}
+
+#inline-configuration-div {
+    font-size: 3vw;
+}
+/* no goofy up/down buttons */
+#inline-configuration-table input::-webkit-outer-spin-button, #inline-configuration-table input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+
+
+
+
+
+/*
+    BOARD CALIBRATION
+ */
+
+#board-calibration-div{
+    text-align: center;
+    width: 95vw;
+
+    margin: 32vh auto auto;
+}
+
+
+#board-calibration-table  td:first-child {
+    text-align: left;
+}
+
+#board-calibration-table td:last-child {
+    text-align: right;
+}
+
+#board-calibration-table td:first-child {
+    text-align: left;
+}
+
+#board-calibration-table .separator {
+    height: 10vw;
+    display: flex;
+    align-items: flex-end;
+}
+
+#board-calibration-table select, #board-calibration-table button, #board-calibration-table input {
+    font-family: 'Pervitina', monospace;
+    font-size: inherit;
+    text-align: inherit;
+}
+
+#board-calibration-table {
+    font-size: 3vw;
+    width: 100%;
+}
+/* no goofy up/down buttons */
+#board-calibration-table input::-webkit-outer-spin-button, #board-calibration-table input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.hidden{
+    display: none;
+}
+.visible{
+    display: inherit;
+}
+
+.logo{
+    width: 30vw;
+}
+
+.no-height {
+    height: 0;
+}

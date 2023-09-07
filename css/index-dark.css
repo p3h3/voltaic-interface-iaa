@@ -1,0 +1,24 @@
+body {
+    --background-color: #222222;
+    --text-color: #E8EAED;
+    --accent-color: #00c1dc; /*voltaic blue*/
+
+    --tilebar-background-color: #000000;
+
+    --dropdown-background-color: #292929;
+
+    --gauge-div-border-color: #D3D3D3FF;
+    --main-table-grid-color: #7b7b7b;
+
+    --config-input-background-color: #313131;
+    --config-input-text-color: #E8EAED;
+
+    --nothing-connected-overlay-background-color: rgba(0, 0, 0, 0.8);
+
+
+    --color-good: green;
+    --color-bad: red;
+    --color-warning: orange;
+
+    --capture-mode-background-color: rgba(0,0,0, 0.5);
+}

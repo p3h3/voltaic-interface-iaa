@@ -1,0 +1,493 @@
+/*
+    Disable PWA pull down to refresh behaviour
+*/
+
+.disableSwipeDown {
+    overscroll-behavior-y: contain;
+}
+
+
+/*
+no scrollbar
+*/
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+#tilebar{
+    height: 50px;
+    font-size: 30px;
+    width: 98vw;
+
+    position: fixed;
+    z-index: 15;
+    top: 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-left: 1vw;
+    padding-right: 1vw;
+}
+
+
+
+@media (max-width: 1200px) {
+    span{
+        font-size: 3.8vw;
+    }
+    #tilebar-right span{
+        font-size: 2.8vw;
+    }
+}
+@media (min-width: 1201px) {
+    span{
+        font-size: 1.4em;
+    }
+    #tilebar-right span{
+        font-size: 1.1em;
+    }
+}
+
+#tilebar-left{
+    display: flex;
+}
+
+#tilebar-left > div {
+    margin-left: 1vw;
+}
+
+
+#tilebar-right{
+    display: flex;
+}
+
+#tilebar-right > div {
+    margin-right: 1vw;
+}
+
+
+
+
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+
+/*
+    no need to move to colors since shadow should always be black
+ */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 150px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    padding: 6px 8px;
+    z-index: 20;
+
+    margin-left: 0;
+
+    border-radius: 1vw;
+
+    font-size: 0.7em;
+}
+
+
+.reset-dropdown{
+    text-align: left;
+    min-width: fit-content;
+}
+
+/* align dropdowns on the left side of the tilebar to be flush to the left side of tilebar text */
+#tilebar-left .dropdown-content {
+    left: 0;
+}
+
+/* align dropdowns on the right side of the tilebar to be flush to the right side of tilebar text */
+#tilebar-right .dropdown-content {
+    right: 0;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+
+
+/*
+saab - waste makes haste
+*/
+body{
+    margin: 0;
+    padding: 0;
+
+    user-select: none;
+}
+
+
+
+
+
+
+/*
+for aligning the content inside it both vertically and horizontally in the center
+ */
+.big-value-flex-div{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+/*
+to center all text inside a big value flex div
+ */
+div.big-value-flex-div div{
+
+    text-align: center;
+    display: block;
+}
+
+
+
+/*
+like big-value-flex-div, just smaller
+ */
+.flex-center{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height:100%;
+}
+
+
+
+
+
+/*
+more to be added - controls the height the big value flex divs take
+ */
+.height30 {
+    height: 30%;
+}
+
+.height40 {
+    height: 40%;
+}
+
+.width60 {
+    width: 60%;
+}
+.width50{
+    width: 50%;
+}
+.width100{
+    width: 100%;
+}
+.text-align-center{
+    text-align: center;
+}
+.text-align-left{
+    text-align: left;
+}
+.text-align-right{
+    text-align: right;
+}
+
+
+
+
+
+
+/*
+for the descriptor left & value right gauges
+ */
+.float-left{
+    float: left;
+}
+.float-right{
+    float: right;
+}
+.left-right-text-container{
+    clear: both;
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+
+
+
+
+
+
+
+
+/*
+      for the header obviously
+ */
+.header{
+    display:flex;
+    text-align: center;
+    padding: 0;
+    margin-top: 25px;
+}
+
+/*
+they all sit in the header
+ */
+#bluetoothStatus{
+    width: 100%;
+    text-align: center;
+}
+#connectionStatus{
+    margin: 0;
+    padding: 0;
+    line-height: 2;
+}
+
+
+#clearAlertsButton {
+    font-family: Pervitina, serif;
+    font-size: 2.5vw;
+}
+
+
+/*
+for the "connect last inline" overlay button
+ */
+#inline-gauge-td{
+    position: relative;
+}
+
+#connect-tacho-overlay {
+    text-align: center;
+
+    position: absolute;
+    margin: 2.5%;
+    width: 95%;
+    height: 95%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
+    z-index: 5;
+}
+
+#bms-gauge-td {
+    position: relative;
+}
+
+#connect-bms-overlay {
+    text-align: center;
+
+    position: absolute;
+    margin: 2.5%;
+    width: 95%;
+    height: 95%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
+    z-index: 5;
+}
+
+
+/*
+for the "connect last BMS" overlay button
+ */
+#nothingConnectedOverlay {
+    text-align: center;
+
+
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
+    z-index: 10;
+}
+
+#autoConnectContainer {
+    width: 60vw;
+}
+
+#nothingConnectedOverlay div:first-of-type div{
+    margin-top: 6vh;
+
+    border-radius: 1em;
+    padding: 2vw;
+}
+
+#autoconnectingBMSText{
+    position: absolute;
+}
+
+#autoconnectingTachoText{
+    position: absolute;
+}
+
+
+
+.gauge-div {
+    width: 95%;
+    height: 95%;
+    margin: 2.5%;
+    padding: 0;
+
+    -webkit-box-sizing: border-box;
+
+    border-radius: 1vw;
+
+    overflow: hidden;
+}
+
+
+.marquee {
+    overflow: hidden;
+    position: relative;
+    width: 75%;
+}
+
+.marquee div {
+    overflow: hidden;
+    animation: marquee 8s linear infinite;
+}
+
+
+@keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+
+
+
+/*
+Channel control button (inside the above mentioned table)
+ */
+.channel-control-button{
+    width: 70%;
+    border-radius: 1vw;
+    margin: auto;
+    color: red;
+}
+
+
+/*
+    temporary, should be either disabled or fully visible based on hardware version
+ */
+#userGPO{
+    opacity: 50%;
+}
+
+
+
+/*
+    the elementsdiv is mostly redundant but was used to contain all the currently not displayed gauges
+ */
+.elementsdiv{
+    display: none;
+}
+
+
+
+
+
+#keyboard-container{
+    position: sticky;
+    bottom: 0;
+}
+
+
+
+#capture-mode-container{
+    height: 100vh;
+    width: 100vw;
+}
+
+#capture-mode-inner-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+#capture-mode-table{
+    display: grid;
+    grid-auto-flow: column;
+    border-collapse: collapse;
+    width: 100%;
+    padding: 0;
+    margin-top: 50px;
+    margin-bottom: 25vw;
+    -webkit-border-horizontal-spacing: 0;
+    -webkit-border-vertical-spacing: 0;
+}
+
+#capture-mode-table td{
+    border:none;
+    background-color: transparent;
+}
+
+#capture-mode-video{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    z-index: -5;
+}
+
+.display-none{
+    display:none;
+}
+
+
+#capture-mode-table td div.gauge-div{
+    background-color: var(--capture-mode-background-color);
+}
+
+
+
+
+
+
+
+
+
+
+
+.device-info-device-chooser{
+    display:flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.device-info-device-chooser h2{
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+    border: 3px solid var(--accent-color);
+    border-radius: 7px;
+    padding-left: 0.5%;
+    padding-right: 2%;
+}
+
+.device-info-device-chooser h2:hover{
+    opacity: 0.75;
+}
+
+.device-info-device-not-chosen{
+    opacity: 0.5;
+}

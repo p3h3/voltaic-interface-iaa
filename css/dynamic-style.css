@@ -1,0 +1,198 @@
+
+
+/*
+For the title bar logging span
+ */
+.recording{
+    animation: recording-animation 2s infinite;
+}
+
+/* recording is generally accepted to be red */
+@keyframes recording-animation {
+    0% {
+        color: inherit;
+    }
+    50% {
+        color: rgb(255, 0, 0);
+    }
+    100% {
+        color: inherit;
+    }
+}
+
+
+
+/*
+For the title bar interface span
+ */
+.breathe-good{
+    animation: breathe-good-animation 1s infinite;
+}
+@keyframes breathe-good-animation {
+    0% {
+        color: inherit;
+    }
+    50% {
+        color: var(--color-good);
+    }
+    100% {
+        color: inherit;
+    }
+}
+
+
+
+.blend-in{
+    animation: blend-in 0.1s;
+}
+@keyframes blend-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.blend-out{
+    animation: blend-out 0.1s forwards;
+}
+@keyframes blend-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+
+
+/*
+Animation for moving in the background
+ */
+
+.animateTurnOnButton {
+    background: linear-gradient( var(--color-good) , var(--color-good)) rgba(0,0,0,0) no-repeat 0 0;
+    background-size: 0 100%;
+    animation: move-in-background 0.35s ease-in 1 forwards;
+}
+.animateTurnOffButton {
+    background: linear-gradient( var(--color-bad) , var(--color-bad)) rgba(0,0,0,0) no-repeat 0 0;
+    background-size: 0 100%;
+    animation: move-in-background 0.35s ease-in 1 forwards;
+}
+
+@keyframes move-in-background {
+    to {
+        background-size: 100% 100%;
+    }
+}
+
+
+
+
+
+
+.animateLoading{
+    background: linear-gradient( var(--color-warning) , var(--color-warning)) rgba(0,0,0,0) no-repeat 0 0;
+    background-size: 0 100%;
+}
+
+
+
+
+
+/*
+For the disabled channels
+ */
+
+.disabled{
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/*
+This way only the gauge divs inside get blurred
+The "Connect BMS" Overlay still has opacity 1
+ */
+.board-gauge-disabled > div.gauge-div{
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.inline-gauge-disabled{
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.visibility-hidden{
+    visibility: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+    CAN PFUSCH
+ */
+.can-input{
+    font-size: 1.5vw;
+    font-weight: normal;
+    line-height: 1vw;
+}
+
+input.can-input{
+    width: 50%;
+}
+
+input[type=checkbox].can-input{
+    transform: scale(0.5);
+}
+
+.can-input-td{
+    padding: 0;
+}

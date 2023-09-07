@@ -1,0 +1,120 @@
+#tilebar{
+    background-color: var(--tilebar-background-color);
+}
+
+.dropdown-content {
+    background-color: var(--dropdown-background-color);
+}
+
+
+
+body{
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.gauge-div{
+    border: 0.5vw solid var(--accent-color);
+}
+
+
+/*
+fuck this, its only for dev
+ */
+.channel-control-button{
+    border: 2px solid var(--gauge-div-border-color);
+}
+
+
+/*
+for all td elements inside a table with class table-4channels
+ */
+table.table-4fields td {
+    border-right: dotted 2px var(--main-table-grid-color);
+}
+
+/*
+all main table tds
+ */
+td.main-table-td-2row {
+    border: dotted 1px var(--main-table-grid-color);
+}
+td.main-table-td-4row {
+    border: dotted 1px var(--main-table-grid-color);
+}
+
+
+
+#nothingConnectedOverlay{
+    background-color: var(--nothing-connected-overlay-background-color);
+    text-shadow: 2px 2px var(--accent-color);
+}
+
+#nothingConnectedOverlay div:first-of-type div{
+    border: 0.5vw solid var(--gauge-div-border-color);
+}
+
+#connect-tacho-overlay{
+    text-shadow: 2px 2px var(--accent-color);
+}
+
+#connect-bms-overlay{
+    text-shadow: 2px 2px var(--accent-color);
+}
+
+
+/*
+For Settings Input fields
+ */
+input{
+    background-color: var(--config-input-background-color);
+    color: var(--config-input-text-color);
+}
+
+#interface-configuration-table tr {
+    border-bottom: 3px dotted var(--gauge-div-border-color);
+}
+#board-config-table tr {
+    border-bottom: 3px dotted var(--gauge-div-border-color);
+}
+#inline-configuration-table td {
+    border-bottom: 3px dotted var(--gauge-div-border-color);
+}
+#board-calibration-table td {
+    border-bottom: 3px dotted var(--gauge-div-border-color);
+}
+
+
+
+
+
+
+
+
+
+
+
+.accent {
+    color: var(--accent-color);
+}
+
+
+fault{
+    color: var(--color-bad);
+}
+warning{
+    color: var(--color-warning);
+}
+#fault-state{
+    color: var(--color-good);
+}
+
+.success{
+    color: var(--color-good);
+}
+.fault{
+    color: var(--color-bad);
+}
+.warning{
+    color: var(--color-warning);
+}

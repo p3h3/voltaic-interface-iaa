@@ -1,0 +1,20 @@
+body {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --accent-color: #00c1dc; /*voltaic blue*/
+
+    --tilebar-background-color: #ffffff;
+
+    --dropdown-background-color: #d2d2d2;
+
+    --gauge-div-border-color: #A9A9A9FF;
+    --inside-gauge-div-table-border-color: #7b7b7b;
+
+    --config-input-background-color: #ffffff;
+    --config-input-text-color: #313131;
+
+    --nothing-connected-overlay-background-color: rgba(255, 255, 255, 0.8);
+
+
+    --capture-mode-background-color: rgba(255,255,255, 0.5);
+}
